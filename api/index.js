@@ -9,4 +9,7 @@ app.use(cors())
 
 app.use("/", userRoutes)
 
-app.listen(8800)
+app.listen(3001, '0.0.0.0', () => {
+  console.log("Servidor backend rodando na porta 3001")
+});
+
