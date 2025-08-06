@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clonar Repositório') {
+            steps {
+                git 'https://github.com/Willexe/devops-test-jenkins.git'
+            }
+        }
+
+        stage('Instalar Dependências') {
+            steps {
+                dir('api') {
+                    sh 'npm install'
+                }
+            }
+        }
+
+        stage('Executar Testes') {
+            steps {
+                dir('api') {
+                    sh 'npm test'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ Pipeline executado com sucesso!'
+        }
+        failure {
+            echo '❌ Ocorreu uma falha na pipeline.'
+        }
+    }
+}
