@@ -1,11 +1,17 @@
 pipeline {
-    agent {
+      agent {
         docker {
             image 'node18-git' // essa já tem apt-get
             args '-p 3000:3000 -p 3001:3001 -v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
 
+    stages {
+        stage('Instalar Git') {
+            steps {
+                sh 'apt-get update && apt-get install -y git'
+            }
+        }
 
         stage('Instalar Dependências API') {
             steps {
