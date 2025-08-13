@@ -9,11 +9,12 @@ pipeline {
     stages {
         stage('Clonar Repositório') {
             steps {
-		git branch: 'main', url: 'https://github.com/Willexe/devops-test-jenkins.git'
+                // Usa a configuração do job para fazer o checkout
+                checkout scm
             }
         }
 
-        stage('Instalar Dependências') {
+        stage('Instalar Dependências Backend') {
             steps {
                 dir('api') {
                     sh 'npm install'
@@ -21,10 +22,26 @@ pipeline {
             }
         }
 
-        stage('Executar Testes') {
+        stage('Rodar Testes Backend') {
             steps {
                 dir('api') {
                     sh 'npm test'
+                }
+            }
+        }
+
+        stage('Instalar Dependências Frontend') {
+            steps {
+                dir('frontend') {
+                    sh 'npm install'
+                }
+            }
+        }
+
+        stage('Build Frontend') {
+            steps {
+                dir('frontend') {
+                    sh 'npm run build'
                 }
             }
         }
@@ -32,10 +49,14 @@ pipeline {
 
     post {
         success {
-            echo '✅ Pipeline executado com sucesso!'
+            echo '✅ Pipeline finalizado com sucesso!'
         }
         failure {
-            echo '❌ Ocorreu uma falha na pipeline.'
+            echo '❌ O pipeline falhou. Verifique os logs.'
+        }
+        always {
+            echo 'ℹ️ Execução finalizada (com ou sem erro).'
         }
     }
 }
+
