@@ -13,14 +13,6 @@ pipeline {
             }
         }
 
-    stages {
-        stage('Checkout') {
-            steps {
-                // Se o pipeline estiver configurado como "Pipeline script from SCM"
-                // o checkout scm já usa o repositório do job
-                checkout scm
-            }
-        }
 
         stage('Instalar Dependências API') {
             steps {
