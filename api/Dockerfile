@@ -24,5 +24,5 @@ COPY . .
 EXPOSE 3001
 
 # Comando para iniciar a aplicação
-CMD ["nodemon", "index.js"]
+CMD ["nodemon", "--exec", "node", "index.js"]
 
